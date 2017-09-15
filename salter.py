@@ -2,8 +2,10 @@
 import os
 import salt
 import shutil
-import subprocess
 from argparse import ArgumentParser
+from subprocess import call
+__version__ = 'SaltPY 0.1 Alpha'
+__author__ = 'Riley - fasterdevops.github.io'
 
 # Let's set some globals!
 PROVIDER = 'digital_ocean'
@@ -14,13 +16,13 @@ class Setup(object):
         self.get_bootstrap = 'curl -L https://bootstrap.saltstack.com -o install_salt.sh'
         self.install_master = 'sh install_salt.sh -P -M'
         self.install_minion = 'sh install_salt.sh -P'
-        self.formula_dir = '/etc/salt'
+        self.config_dir = '/etc/salt'
+        self.formula_dir = '/srv/salt'
 
     def master_install(self):
-        subprocess.Popen(self.get_bootstrap, shell=True)
-        subprocess.Popen(self.install_master, shell=True)
-        os.chdir(self.formula_dir)
-        os.system(self.formula_repo)
+        subprocess.call(self.get_bootstrap, shell=True)
+        subprocess.call(self.install_master, shell=True)
+        subprocess.call(self.git clone, cwd=self.formula_dir)
 
 class Cloud(object):
     def __init__(self):
@@ -35,13 +37,13 @@ class Cloud(object):
                             PROVIDER ]
 
     def list_pro(self):
-        subprocess.Popen(self.list_profiles)
+        subprocess.call(self.list_profiles)
 
     def list_sizes(self):
-        subprocess.Popen(self.list_sizes)
+        subprocess.call(self.list_sizes)
 
     def list_images(self):
-        subprocess.Popen(self.list_images)
+        subprocess.call(self.list_images)
 
 class Master(object):
 
@@ -55,11 +57,11 @@ class Master(object):
                         command ]
 
     def test_ping(self):
-        subprocess.Popen(self.ping)
+        subprocess.call(self.ping)
 
     def run_cmd(self):
         command = raw_input('Enter the command you wish to run-:')
-        subprocess.Popen(self.cmd_run)
+        subprocess.call(self.cmd_run)
 
 def main():
     '''
