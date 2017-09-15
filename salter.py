@@ -12,7 +12,7 @@ PROVIDER = 'digital_ocean'
 
 class Setup(object):
     '''
-    Class to setup salt master, minions,
+    Setup salt master, minions,
     and download formulas from Riley's github
     '''
     def __init__(self):
@@ -25,8 +25,8 @@ class Setup(object):
 
     def master_setup(self):
         '''
-        Using run to execute shell commands to setup Salt master
-        and download formulas from Riley's git
+        Using run to execute shell commands via subprocess.call() to
+        setup Salt master and download formulas from Riley's git
         '''
         run(self.get_bootstrap)
         run(self.install_master)
@@ -104,6 +104,10 @@ def main():
     parser.add_argument('--sizes',
                         help='List' + PROVIDER + 'sizes',
                         dest='sizes',
+                        action='store_true')
+    parser.add_argument('--setupmaster',
+                        help='Setup a Salt master',
+                        dest='setupmaster',
                         action='store_true')
     args = parser.parse_args()
     return args
