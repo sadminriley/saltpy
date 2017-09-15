@@ -1,11 +1,24 @@
 #!/usr/bin/python
-import salt
-import subprocess
 import os
+import salt
+import shutil
+import subprocess
 from argparse import ArgumentParser
 
 # Let's set some globals!
 PROVIDER = 'digital_ocean'
+class Setup(object):
+
+    def __init__(self):
+        self.formula_repo = 'https://github.com/sadminriley/saltstack'
+        self.get_bootstrap = 'curl -L https://bootstrap.saltstack.com -o install_salt.sh'
+        self.install_master = 'sh install_salt.sh -P -M'
+        self.install_minion = 'sh install_salt.sh -P'
+
+    def master_install(self):
+        subprocess.Popen(self.get_bootstrap, shell=True)
+        subprocess.Popen(self.install_master, shell=True)
+
 
 class Cloud(object):
     def __init__(self):
