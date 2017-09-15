@@ -105,3 +105,7 @@ def main():
                         help='List' + PROVIDER + 'sizes',
                         dest='sizes',
                         action='store_true')
+    args = parser.parse_args()
+    return args
+
+main()
