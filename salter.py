@@ -1,6 +1,4 @@
 #!/usr/bin/python
-import os
-import salt
 import shutil
 from argparse import ArgumentParser
 from subprocess import call as run
@@ -8,10 +6,15 @@ from subprocess import call as run
 __version__ = 'SaltPY 0.1 Alpha'
 __author__ = 'Riley - fasterdevops.github.io'
 
-# Let's set some globals!
-PROVIDER = 'digital_ocean' # Set salt-cloud provider
+# Set global for salt-cloud provider
+PROVIDER = 'digital_ocean'
+
+
 class Setup(object):
-    ''' Class to setup salt master, minions, and download formulas from Riley's github'''
+    '''
+    Class to setup salt master, minions,
+    and download formulas from Riley's github
+    '''
     def __init__(self):
         self.formula_repo = 'git clone https://github.com/sadminriley/saltstack.git'
         self.get_bootstrap = 'curl -L https://bootstrap.saltstack.com -o install_salt.sh'
@@ -21,28 +24,39 @@ class Setup(object):
         self.formula_dir = '/srv/salt'      # Default Salt formulas directory
 
     def master_setup(self):
-        ''' Using run to execute shell commands'''
+        '''
+        Using run to execute shell commands to setup Salt master
+        and download formulas from Riley's git
+        '''
         run(self.get_bootstrap)
         run(self.install_master)
-        run(self.git clone, cwd=self.formula_dir)
+        run(self.formula_repo, cwd=self.formula_dir)
         shutil.move('/srv/salt/saltstack/*', self.formula_dir)
 
     def minion_setup(self):
+        '''
+        Setup Salt minions
+        '''
         run(self.get_bootstrap, shell=True)
         run(self.install_minion)
 
+
 class Cloud(object):
-    '''Class for usage with salt-cloud'''
+    '''
+    Class to setup and utilize
+    Salt-Cloud
+    '''
     def __init__(self):
         self.list_profiles = ['salt-cloud',
                               '--list-profiles',
-                              PROVIDER ]
+                              PROVIDER]
         self.list_sizes = ['salt-cloud',
                            '--list-sizes',
-                           PROVIDER ]
+                           PROVIDER]
         self.list_images = ['salt-cloud',
                             '--list-images',
-                            PROVIDER ]
+                            PROVIDER]
+
     def list_pro(self):
         run(self.list_profiles)
 
@@ -52,16 +66,19 @@ class Cloud(object):
     def list_images(self):
         run(self.list_images)
 
-class Master(object):
 
+class Master(object):
+    '''
+    Class to control minions from the Salt master
+    '''
     def __init__(self, command=''):
         MINIONS = "'*'"
         self.ping = ['salt',
                      MINIONS,
-                     'test.ping' ]
+                     'test.ping']
         self.cmd_run = ['salt',
                         'cmd.run',
-                        command ]
+                        command]
 
     def test_ping(self):
         run(self.ping)
@@ -70,9 +87,11 @@ class Master(object):
         command = raw_input('Enter the command you wish to run-:')
         run(self.cmd_run)
 
+
 def main():
     '''
-    Main function and argument parse.
+    Main function to initialize classes
+    and parse user arguments.
     '''
     print __version__
     parser = ArgumentParser(description='A Saltstack utility' +
@@ -83,7 +102,6 @@ def main():
                         dest='profiles',
                         action='store_true')
     parser.add_argument('--sizes',
-                        help='List' + PROVIDER 'sizes',
+                        help='List' + PROVIDER + 'sizes',
                         dest='sizes',
                         action='store_true')
-
