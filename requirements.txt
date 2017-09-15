@@ -1,1 +1,1 @@
--e git+https://github.com/sadminriley/saltpy.git#egg=saltpy
+saltpy==0.1
