@@ -19,10 +19,15 @@ class Setup(object):
         self.config_dir = '/etc/salt'
         self.formula_dir = '/srv/salt'
 
-    def master_install(self):
+    def master_setup(self):
         subprocess.call(self.get_bootstrap, shell=True)
         subprocess.call(self.install_master, shell=True)
         subprocess.call(self.git clone, cwd=self.formula_dir)
+        shutil.move('/srv/salt/saltstack/*', self.formula_dir)
+
+    def minion_setup(self):
+        subprocess.call(self.get_bootstrap, shell=True)
+        subprocess.call(self.install_minion)
 
 class Cloud(object):
     def __init__(self):
@@ -35,7 +40,6 @@ class Cloud(object):
         self.list_images = ['salt-cloud',
                             '--list-images',
                             PROVIDER ]
-
     def list_pro(self):
         subprocess.call(self.list_profiles)
 
