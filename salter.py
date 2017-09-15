@@ -10,15 +10,17 @@ PROVIDER = 'digital_ocean'
 class Setup(object):
 
     def __init__(self):
-        self.formula_repo = 'https://github.com/sadminriley/saltstack'
+        self.formula_repo = 'git clone https://github.com/sadminriley/saltstack.git'
         self.get_bootstrap = 'curl -L https://bootstrap.saltstack.com -o install_salt.sh'
         self.install_master = 'sh install_salt.sh -P -M'
         self.install_minion = 'sh install_salt.sh -P'
+        self.formula_dir = '/etc/salt'
 
     def master_install(self):
         subprocess.Popen(self.get_bootstrap, shell=True)
         subprocess.Popen(self.install_master, shell=True)
-
+        os.chdir(self.formula_dir)
+        os.system(self.formula_repo)
 
 class Cloud(object):
     def __init__(self):
