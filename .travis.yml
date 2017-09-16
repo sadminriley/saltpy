@@ -4,8 +4,5 @@ python:
   - "2.7"
 install:
   - python setup.py develop
-<<<<<<< HEAD
   - pip install paramiko # Install paramiko
-=======
->>>>>>> bea7f6259640ec34ae896475856d3a1e3d848085
 script: ./salter.py -h

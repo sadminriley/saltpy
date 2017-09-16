@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from setuptools import setup
-# SaltPY v0.1 setup
+# SaltPY v0.1 setup.py
 setup(
     name = "SaltPY",
     version = "0.1",
