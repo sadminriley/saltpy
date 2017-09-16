@@ -10,6 +10,7 @@ setup(
     license = "MIT",
     install_requires=[
         "saltpy==0.1"
+        "paramiko==2.2.1"
     ],
     dependency_links=[
         "git+https://github.com/sadminriley/saltpy.git#egg=saltpy-0.1"
