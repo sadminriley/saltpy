@@ -50,8 +50,8 @@ class SSH(object):
     '''
     Object to establish ssh connection
     '''
-    def __init__(self, username='root', port=22, ssh_key='~/id_rsa.pub'):
-        pass
+    def __init__(self, minion, username='root', port=22, ssh_key='~/id_rsa.pub'):
+        self.connect(minion, username, port, ssh_key)
 
 
 
