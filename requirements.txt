@@ -1,3 +1,3 @@
 -e git+https://github.com/sadminriley/saltpy.git#egg=saltpy-0.1
 pytest
-paramiko
+paramiko=2.2.1
