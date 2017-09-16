@@ -22,6 +22,10 @@ class Setup(object):
         self.install_minion = 'sh install_salt.sh -P'
         self.config_dir = '/etc/salt'       # Default Salt configuration directory
         self.formula_dir = '/srv/salt'      # Default Salt formulas directory
+        self.enable_master = 'systemctl enable salt-master'
+        self.start_master = 'systemctl start salt-master'
+        self.enable_minion = 'systemctl enable salt-minion'
+        self.start_minion = 'systemctl start salt-minion'
 
     def master_setup(self):
         '''
@@ -32,6 +36,7 @@ class Setup(object):
         run(self.install_master)
         run(self.formula_repo, cwd=self.formula_dir)
         shutil.move('/srv/salt/saltstack/*', self.formula_dir)
+
 
     def minion_setup(self):
         '''
