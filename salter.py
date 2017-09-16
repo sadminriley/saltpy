@@ -109,8 +109,8 @@ def main():
     '''
     print __version__
     parser = ArgumentParser(description='A Saltstack utility' +
-                            'to make Saltstack easier to' +
-                            'use and setup')
+                            ' to make Saltstack easier to' +
+                            ' use and setup')
     parser.add_argument('--profiles',
                         help='List provider profiles',
                         dest='profiles',
