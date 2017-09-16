@@ -3,6 +3,5 @@ sudo: required
 python:
   - "2.7"
 install:
-  - python setup.py develop
-  - pip install paramiko # Install paramiko
+  - pip2.7 install -r requirements.txt
 script: ./salter.py -h
