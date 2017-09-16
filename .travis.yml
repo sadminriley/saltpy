@@ -4,4 +4,5 @@ python:
   - "2.7"
 install:
   - pip2.7 install -r requirements.txt
-script: ./salter.py -h
+script:
+  - python2.7 salter.py -h
