@@ -72,9 +72,9 @@ class Master(object):
     Class to control minions from the Salt master
     '''
     def __init__(self, command=''):
-        MINIONS = "'*'"
+        self.minions = "'*'"
         self.ping = ['salt',
-                     MINIONS,
+                     self.minions,
                      'test.ping']
         self.cmd_run = ['salt',
                         'cmd.run',
