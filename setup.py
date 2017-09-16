@@ -9,7 +9,7 @@ setup(
     url = "https://github.com/sadminriley/",
     license = "MIT",
     install_requires=[
-        "saltpy==0.1"
+        "saltpy==0.1",
         "paramiko==2.2.1"
     ],
     dependency_links=[
