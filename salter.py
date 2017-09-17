@@ -2,7 +2,7 @@
 import shutil
 from argparse import ArgumentParser
 from subprocess import call as run
-from paramiko import SSHClient
+from paramiko import SSHClient, AutoAddPolicy
 
 __version__ = 'SaltPY 0.1 Alpha'
 __author__ = 'Riley - fasterdevops.github.io'
@@ -62,8 +62,10 @@ class SSH(object):
     def connect(self):
         self.client.set_missing_host_key_policy(AutoAddPolicy())
         self.client.connect(self.host, port=self.port, username=self.user, password=self.password)
-        self.client.exec_command(command)
-
+        stdin, stdout, stderr = self.client.exec_command("ls")
+        for line in stdout.readlines():
+            print line
+        self.client.close()
 
 class Cloud(object):
     '''
