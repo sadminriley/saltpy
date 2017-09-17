@@ -108,12 +108,12 @@ class Master(object):
     Trying some things with this one, it's a mess right now!
     '''
 
-    def __init__(self, minions='srv4.riley.science', ping='test.ping'):
+    def __init__(self, minions='', ping='test.ping'):
         self.minions = minions
         self.ping = ping
 
-    def test_ping(self):
-        ping_command = 'salt '+ self.minions + ' test.ping'
+    def test_ping(self, targets):
+        ping_command = 'salt '+ targets + ' test.ping'
         os.system(ping_command)
 
 
