@@ -1,8 +1,8 @@
 #!/usr/bin/python
-import paramiko
 import shutil
 from argparse import ArgumentParser
 from subprocess import call as run
+from paramiko import SSHClient
 
 __version__ = 'SaltPY 0.1 Alpha'
 __author__ = 'Riley - fasterdevops.github.io'
@@ -50,9 +50,19 @@ class SSH(object):
     '''
     Object to establish ssh connection
     '''
-    def __init__(self, minion, username='root', port=22, ssh_key='~/id_rsa.pub'):
-        self.connect(minion, username, port, ssh_key)
+    client = SSHClient()
 
+    def __init__(self, host, user='root', port=22, ssh_key='~/.ssh/id_rsa.pub', password=None):
+        self.user = user
+        self.host = host
+        self.port = port
+        self.sshkey = ssh_key
+        self.password = password
+
+    def connect(self):
+        self.client.set_missing_host_key_policy(AutoAddPolicy())
+        self.client.connect(self.host, port=self.port, username=self.user, password=self.password)
+        self.client.exec_command(command)
 
 
 class Cloud(object):
