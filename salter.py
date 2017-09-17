@@ -7,14 +7,15 @@ from paramiko import SSHClient, AutoAddPolicy
 __version__ = 'SaltPY 0.1 Alpha'
 __author__ = 'Riley - fasterdevops.github.io'
 
-# Set global for salt-cloud provider
-PROVIDER = 'digital_ocean'
+# This is work in-progress.
+# TODO: Finish SSH classes and start testing basic saltstack setups with SaltPY.
 
 
 class Setup(object):
     '''
     Setup salt master, minions,
-    and download formulas from Riley's github
+    and download formulas from Riley's github.
+    Mostly using this to set a bunch of stuff to use later.
     '''
     def __init__(self):
         self.formula_repo = 'git clone https://github.com/sadminriley/saltstack.git'
@@ -48,7 +49,12 @@ class Setup(object):
 
 class SSH(object):
     '''
-    Object to establish ssh connection
+    Object to establish ssh connection.
+    Example usage of ssh object-
+    >>> from salter import SSH
+    >>> host = 'riley.science'
+    >>> ssh = SSH(host)
+    >>> ssh.connect()
     '''
     client = SSHClient()
 
@@ -73,15 +79,17 @@ class Cloud(object):
     Salt-Cloud
     '''
     def __init__(self):
+        provider = 'digital_ocean'
+
         self.list_profiles = ['salt-cloud',
                               '--list-profiles',
-                              PROVIDER]
+                              provider]
         self.list_sizes = ['salt-cloud',
                            '--list-sizes',
-                           PROVIDER]
+                           provider]
         self.list_images = ['salt-cloud',
                             '--list-images',
-                            PROVIDER]
+                            provider]
 
     def list_pro(self):
         run(self.list_profiles)
@@ -98,9 +106,10 @@ class Master(object):
     Class to control minions from the Salt master
     '''
     def __init__(self, command=''):
+        self.command = command
         self.minions = "'*'"
         self.ping = ['salt',
-                     self.minions,
+                     'srv*',
                      'test.ping']
         self.cmd_run = ['salt',
                         'cmd.run',
@@ -110,7 +119,6 @@ class Master(object):
         run(self.ping)
 
     def run_cmd(self):
-        command = raw_input('Enter the command you wish to run-:')
         run(self.cmd_run)
 
 
@@ -128,7 +136,7 @@ def main():
                         dest='profiles',
                         action='store_true')
     parser.add_argument('--sizes',
-                        help='List' + PROVIDER + 'sizes',
+                        help='List provider sizes',
                         dest='sizes',
                         action='store_true')
     parser.add_argument('--setupmaster',
