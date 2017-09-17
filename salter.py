@@ -1,7 +1,8 @@
 #!/usr/bin/python
+import os
 import shutil
+import subprocess
 from argparse import ArgumentParser
-from subprocess import call as run
 from paramiko import SSHClient, AutoAddPolicy
 
 __version__ = 'SaltPY 0.1 Alpha'
@@ -31,12 +32,12 @@ class Setup(object):
 
     def master_setup(self):
         '''
-        Using run to execute shell commands via subprocess.call() to
+        Using subprocess.call to execute shell commands via subprocess.call() to
         setup Salt master and download formulas from Riley's git
         '''
-        run(self.get_bootstrap)
-        run(self.install_master)
-        run(self.formula_repo, cwd=self.formula_dir)
+        subprocess.call(self.get_bootstrap)
+        subprocess.call(self.install_master)
+        subprocess.call(self.formula_repo, cwd=self.formula_dir)
         shutil.move('/srv/salt/saltstack/*', self.formula_dir)
 
 
@@ -44,8 +45,8 @@ class Setup(object):
         '''
         Setup Salt minions
         '''
-        run(self.get_bootstrap, shell=True)
-        run(self.install_minion)
+        subprocess.call(self.get_bootstrap, shell=True)
+        subprocess.call(self.install_minion)
 
 class SSH(object):
     '''
@@ -92,34 +93,28 @@ class Cloud(object):
                             provider]
 
     def list_pro(self):
-        run(self.list_profiles)
+        subprocess.call(self.list_profiles)
 
     def list_sizes(self):
-        run(self.list_sizes)
+        subprocess.call(self.list_sizes)
 
     def list_images(self):
-        run(self.list_images)
+        subprocess.call(self.list_images)
 
 
 class Master(object):
     '''
-    Class to control minions from the Salt master
+    Class to control minions from the Salt master.
+    Trying some things with this one, it's a mess right now!
     '''
-    def __init__(self, command=''):
-        self.command = command
-        self.minions = "'*'"
-        self.ping = ['salt',
-                     'srv*',
-                     'test.ping']
-        self.cmd_run = ['salt',
-                        'cmd.run',
-                        command]
+
+    def __init__(self, minions='srv4.riley.science', ping='test.ping'):
+        self.minions = minions
+        self.ping = ping
 
     def test_ping(self):
-        run(self.ping)
-
-    def run_cmd(self):
-        run(self.cmd_run)
+        ping_command = 'salt '+ self.minions + ' test.ping'
+        os.system(ping_command)
 
 
 def main():
@@ -147,3 +142,4 @@ def main():
     return args
 
 main()
+
