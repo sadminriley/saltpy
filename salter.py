@@ -67,10 +67,10 @@ class SSH(object):
         self.sshkey = ssh_key
         self.password = password
 
-    def connect(self):
+    def connect(self, command):
         self.client.set_missing_host_key_policy(AutoAddPolicy())
         self.client.connect(self.host, port=self.port, username=self.user, password=self.password)
-        stdin, stdout, stderr = self.client.exec_command("ls")
+        stdin, stdout, stderr = self.client.exec_command(command)
         for line in stdout.readlines():
             print line
         self.client.close()
