@@ -44,7 +44,8 @@ class Setup(object):
 
     def minion_setup(self):
         '''
-        Setup Salt minions
+        Setup Salt minions.
+        Executing commands to SSH class via paramiko.
         '''
         ssh = SSH(self.host)
         command = self.installer
@@ -144,4 +145,3 @@ def main():
     return args
 
 main()
-
