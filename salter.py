@@ -18,8 +18,8 @@ class Setup(object):
     and download formulas from Riley's github.
     Mostly using this to set a bunch of stuff to use later.
     '''
-    def __init__(self, repo='git clone https://github.com/sadminriley/saltstack.git', installer='curl -L https://bootstrap.saltstack.com -o install_salt.sh', install_master='sh install_salt.sh -P -M', install_minion='sh install_salt.sh -P'):
-
+    def __init__(self, host, repo='git clone https://github.com/sadminriley/saltstack.git', installer='curl -L https://bootstrap.saltstack.com -o install_salt.sh', install_master='sh install_salt.sh -P -M', install_minion='sh install_salt.sh -P'):
+        self.host = host
         self.repo = repo
         self.installer = installer
         self.install_master = install_master
@@ -36,7 +36,7 @@ class Setup(object):
         Using subprocess.call to execute shell commands via subprocess.call() to
         setup Salt master and download formulas from Riley's git
         '''
-        subprocess.call(self.get_bootstrap)
+        subprocess.call(self.installer)
         subprocess.call(self.install_master)
         subprocess.call(self.formula_repo, cwd=self.formula_dir)
         shutil.move('/srv/salt/saltstack/*', self.formula_dir)
@@ -46,8 +46,9 @@ class Setup(object):
         '''
         Setup Salt minions
         '''
-        subprocess.call(self.get_bootstrap, shell=True)
-        subprocess.call(self.install_minion)
+        ssh = SSH(self.host)
+        command = self.installer
+        ssh.connect(command)
 
 class SSH(object):
     '''
