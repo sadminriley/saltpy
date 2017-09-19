@@ -2,6 +2,7 @@
 import os
 import shutil
 import subprocess
+import time
 from argparse import ArgumentParser
 from paramiko import SSHClient, AutoAddPolicy
 
@@ -48,8 +49,12 @@ class Setup(object):
         Executing commands to SSH class via paramiko.
         '''
         ssh = SSH(self.host)
-        command = self.installer
-        ssh.connect(command)
+        commands = ['curl -L https://bootstrap.saltstack.com -o install_salt.sh','sh install_salt.sh -P -M']
+        print("Running %s followed by %s...this may take a few minutes!" % (self.installer, self.install_master))
+        ssh.connect(commands)
+        time.sleep(35)
+        accept_key = ['salt-key', '-A']
+        subprocess.call(accept_key)
 
 class SSH(object):
     '''
@@ -69,13 +74,14 @@ class SSH(object):
         self.sshkey = ssh_key
         self.password = password
 
-    def connect(self, command):
+    def connect(self, commands):
         self.client.set_missing_host_key_policy(AutoAddPolicy())
         self.client.connect(self.host, port=self.port, username=self.user, password=self.password)
-        stdin, stdout, stderr = self.client.exec_command(command)
-        for line in stdout.readlines():
-            print line
-        self.client.close()
+        for command in commands:
+            stdin, stdout, stderr = self.client.exec_command(command)
+            for line in stdout.readlines():
+                print line
+                self.client.close()
 
 class Cloud(object):
     '''
