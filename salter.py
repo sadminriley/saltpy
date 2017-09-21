@@ -19,11 +19,9 @@ class Setup(object):
     and download formulas from Riley's github.
     Mostly using this to set a bunch of stuff to use later.
     '''
-    def __init__(self, host, repo='git clone https://github.com/sadminriley/saltstack.git', installer='curl -L https://bootstrap.saltstack.com -o install_salt.sh', install_master='sh install_salt.sh -P -M', install_minion='sh install_salt.sh -P'):
+    def __init__(self, host, repo='git clone https://github.com/sadminriley/saltstack.git'):
         self.host = host
         self.repo = repo
-        self.installer = installer
-        self.install_master = install_master
         self.install_minion = install_minion
         self.config_dir = '/etc/salt'       # Default Salt configuration directory
         self.formula_dir = '/srv/salt'      # Default Salt formulas directory
