@@ -48,7 +48,7 @@ class Setup(object):
         '''
         ssh = SSH(self.host)
         commands = ['curl -L https://bootstrap.saltstack.com -o install_salt.sh','sh install_salt.sh -P -M']
-        print("Running %s followed by %s...this may take a few minutes!" % (self.installer, self.install_master))
+        print("Running salt install....this may take a few minutes!")
         ssh.connect(commands)
         time.sleep(35)
         accept_key = ['salt-key', '-A']
