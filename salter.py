@@ -22,13 +22,6 @@ class Setup(object):
     def __init__(self, host, repo='git clone https://github.com/sadminriley/saltstack.git'):
         self.host = host
         self.repo = repo
-        self.install_minion = install_minion
-        self.config_dir = '/etc/salt'       # Default Salt configuration directory
-        self.formula_dir = '/srv/salt'      # Default Salt formulas directory
-        self.enable_master = 'systemctl enable salt-master'
-        self.start_master = 'systemctl start salt-master'
-        self.enable_minion = 'systemctl enable salt-minion'
-        self.start_minion = 'systemctl start salt-minion'
 
     def master_setup(self):
         '''
@@ -47,7 +40,7 @@ class Setup(object):
         Executing commands to SSH class via paramiko.
         '''
         ssh = SSH(self.host)
-        commands = ['curl -L https://bootstrap.saltstack.com -o install_salt.sh','sh install_salt.sh -P -M']
+        commands = ['curl -L https://bootstrap.saltstack.com -o install_salt.sh','sh install_salt.sh -P -M','systemctl enable salt-minion','systemctl start salt-minion']
         print("Running salt install....this may take a few minutes!")
         ssh.connect(commands)
         time.sleep(35)
